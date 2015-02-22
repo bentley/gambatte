@@ -1,5 +1,11 @@
 .SUFFIXES: .c .cpp .o
 
+CC ?= gcc
+CXX ?= g++
+AR ?= ar
+RANLIB ?= ranlib
+PKG_CONFIG = pkg-config
+
 LIB = libgambatte/libgambatte.a
 SDL = gambatte_sdl/gambatte_sdl
 TEST = test/testrunner
@@ -80,7 +86,6 @@ $(LIB): $(LIB_OBJECTS)
 	$(AR) $(ARFLAGS) $@ $(LIB_OBJECTS)
 	$(RANLIB) $@
 
-PKG_CONFIG = pkg-config
 PKGCONFIG_CFLAGS != $(PKG_CONFIG) --cflags sdl libpng
 .c.o:
 	$(CC) $(CXXFLAGS) -c $< -o $*.o
