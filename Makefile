@@ -79,8 +79,8 @@ all: $(SDL)
 
 SDL_LFLAGS != $(PKG_CONFIG) --libs sdl
 $(SDL): $(SDL_OBJECTS) $(LIB)
-	$(CXX) $(CXXFLAGS) -o $@ -pthread $(SDL_OBJECTS) $(LIB) -lz \
-		$(SDL_LFLAGS) $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@ -pthread $(SDL_OBJECTS) $(LIB) -lz \
+		$(SDL_LFLAGS)
 
 $(LIB): $(LIB_OBJECTS)
 	$(AR) $(ARFLAGS) $@ $(LIB_OBJECTS)
