@@ -141,3 +141,6 @@ clean:
 	rm -f $(TEST) $(TEST_OBJECTS) $(TEST_GBS)
 	rm -f $(SDL_TARGET) $(SDL_OBJECTS)
 	rm -f $(LIB) $(LIB_OBJECTS)
+
+
+.PHONY: all clean install uninstall
