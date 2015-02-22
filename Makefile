@@ -78,15 +78,16 @@ TEST_OBJECTS = \
 all: $(SDL)
 
 SDL_LFLAGS != $(PKG_CONFIG) --libs sdl
+ZLIB_LFLAGS != $(PKG_CONFIG) --libs zlib
 $(SDL): $(SDL_OBJECTS) $(LIB)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@ -pthread $(SDL_OBJECTS) $(LIB) -lz \
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@ -pthread $(SDL_OBJECTS) $(LIB) $(ZLIB_LFLAGS) \
 		$(SDL_LFLAGS)
 
 $(LIB): $(LIB_OBJECTS)
 	$(AR) $(ARFLAGS) $@ $(LIB_OBJECTS)
 	$(RANLIB) $@
 
-PKGCONFIG_CFLAGS != $(PKG_CONFIG) --cflags sdl libpng
+PKGCONFIG_CFLAGS != $(PKG_CONFIG) --cflags sdl libpng zlib
 .c.o:
 	$(CC) $(CXXFLAGS) -c $< -o $*.o
 .cpp.o:
