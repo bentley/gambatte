@@ -6,8 +6,18 @@ AR ?= ar
 RANLIB ?= ranlib
 PKG_CONFIG = pkg-config
 
+PREFIX ?= /usr/local
+BINDIR = $(PREFIX)/bin
+SHAREDIR = $(PREFIX)/share
+DOCDIR = $(SHAREDIR)/doc/gambatte
+INSTALL = install
+INSTALL_DIR = $(INSTALL) -d
+INSTALL_PROGRAM = $(INSTALL)
+INSTALL_DATA = $(INSTALL) -m 644
+
 LIB = libgambatte/libgambatte.a
-SDL = gambatte_sdl/gambatte_sdl
+SDL_NAME = gambatte_sdl
+SDL_TARGET = gambatte_sdl/$(SDL_NAME)
 TEST = test/testrunner
 
 PYTHON ?= python
@@ -75,11 +85,11 @@ LIB_OBJECTS = \
 TEST_OBJECTS = \
 	test/testrunner.o
 
-all: $(SDL)
+all: $(SDL_TARGET)
 
 SDL_LFLAGS != $(PKG_CONFIG) --libs sdl
 ZLIB_LFLAGS != $(PKG_CONFIG) --libs zlib
-$(SDL): $(SDL_OBJECTS) $(LIB)
+$(SDL_TARGET): $(SDL_OBJECTS) $(LIB)
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@ -pthread $(SDL_OBJECTS) $(LIB) $(ZLIB_LFLAGS) \
 		$(SDL_LFLAGS)
 
@@ -115,7 +125,19 @@ $(TEST): $(TEST_OBJECTS) $(LIB)
 	$(CXX) $(CXXFLAGS) -o $@ $(TEST_OBJECTS) $(LIB) \
 		$(PNG_LFLAGS)
 
+install: $(SDL_TARGET) README changelog
+	$(INSTALL_DIR) "$(DESTDIR)$(BINDIR)"
+	$(INSTALL_PROGRAM) $(SDL_TARGET) "$(DESTDIR)$(BINDIR)"/
+	$(INSTALL_DIR) "$(DESTDIR)$(DOCDIR)"
+	$(INSTALL_DATA) README "$(DESTDIR)$(DOCDIR)"/
+	$(INSTALL_DATA) changelog "$(DESTDIR)$(DOCDIR)"/
+
+uninstall:
+	rm -f "$(DESTDIR)$(BINDIR)/$(SDL_NAME)"
+	rm -f "$(DESTDIR)$(DOCDIR)/README"
+	rm -f "$(DESTDIR)$(DOCDIR)/changelog"
+
 clean:
 	rm -f $(TEST) $(TEST_OBJECTS) $(TEST_GBS)
-	rm -f $(SDL) $(SDL_OBJECTS)
+	rm -f $(SDL_TARGET) $(SDL_OBJECTS)
 	rm -f $(LIB) $(LIB_OBJECTS)
