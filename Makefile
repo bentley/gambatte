@@ -123,7 +123,7 @@ test: $(TEST)
 PNG_LFLAGS != $(PKG_CONFIG) --libs libpng
 $(TEST): $(TEST_OBJECTS) $(LIB)
 	$(CXX) $(CXXFLAGS) -o $@ $(TEST_OBJECTS) $(LIB) \
-		$(PNG_LFLAGS)
+		$(PNG_LFLAGS) $(ZLIB_LFLAGS)
 
 install: $(SDL_TARGET) README changelog
 	$(INSTALL_DIR) "$(DESTDIR)$(BINDIR)"
