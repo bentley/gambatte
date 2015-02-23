@@ -99,7 +99,7 @@ $(LIB): $(LIB_OBJECTS)
 
 PKGCONFIG_CFLAGS != $(PKG_CONFIG) --cflags sdl libpng zlib
 .c.o:
-	$(CC) $(CXXFLAGS) -c $< -o $*.o
+	$(CC) $(CFLAGS) -c $< -o $*.o
 .cpp.o:
 	$(CXX) -Ilibgambatte/src -Ilibgambatte/include -Igambatte_sdl/src \
 		-Icommon $(CXXFLAGS) -c $< -o $*.o \
